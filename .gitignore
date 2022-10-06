@@ -150,3 +150,34 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+dataset/calendar.csv
+dataset/sales_train_evaluation.csv
+dataset/sales_train_validation.csv
+dataset/sample_submission.csv
+dataset/sell_prices.csv
+salesforecast/pyvenv.cfg
+salesforecast/Scripts/activate
+salesforecast/Scripts/activate.bat
+salesforecast/Scripts/Activate.ps1
+salesforecast/Scripts/deactivate.bat
+salesforecast/Scripts/ipython.exe
+salesforecast/Scripts/ipython3.exe
+salesforecast/Scripts/jupyter-kernel.exe
+salesforecast/Scripts/jupyter-kernelspec.exe
+salesforecast/Scripts/jupyter-migrate.exe
+salesforecast/Scripts/jupyter-run.exe
+salesforecast/Scripts/jupyter-troubleshoot.exe
+salesforecast/Scripts/jupyter.exe
+salesforecast/Scripts/pip.exe
+salesforecast/Scripts/pip3.9.exe
+salesforecast/Scripts/pip3.exe
+salesforecast/Scripts/pygmentize.exe
+salesforecast/Scripts/python.exe
+salesforecast/Scripts/pythonw.exe
+salesforecast/Scripts/pywin32_postinstall.py
+salesforecast/Scripts/pywin32_testall.py
+salesforecast/share/jupyter/kernels/python3/kernel.json
+salesforecast/share/jupyter/kernels/python3/logo-32x32.png
+salesforecast/share/jupyter/kernels/python3/logo-64x64.png
+salesforecast/share/jupyter/kernels/python3/logo-svg.svg
+salesforecast/share/man/man1/ipython.1
