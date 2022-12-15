@@ -19,8 +19,8 @@ arima.model()
 # train and predict sales data using LSTM model
 lstm = LSTM(calendar_df, sales_df)
 (X_train, y_train, X_test, daysBeforeEventTest) = lstm.preprocess(timesteps=14)
-model = lstm.model(X_train=X_train, y_train=y_train, epochs=1, batch_size=40)
-y_pred = lstm.predict(inputs=X_train[-1, :, :], timesteps=14, targetDays=61, daysBeforeEventTest=daysBeforeEventTest)
+model = lstm.model(X_train=X_train, y_train=y_train, epochs=50, batch_size=40)
+y_pred = lstm.predict(inputs=X_train[-1, :, :], timesteps=14, targetDays=97, daysBeforeEventTest=daysBeforeEventTest)
 store_ids = list(set(sales_df['store_id']))
 lstm.calculateMetrics(y_pred, X_test, store_ids=store_ids)
 
