@@ -26,17 +26,17 @@ class ARIMA(object):
 
         plt.figure(figsize=(15, 12))
         plt.subplots_adjust(hspace=0.5)
-        plt.suptitle("ARIMA model performance in forecasting next 61 days sales", fontsize=18, y=0.95)
+        plt.suptitle("ARIMA model performance in forecasting next 97 days sales", fontsize=18, y=0.95)
         total_error = 0
 
         # training and making sales prediction for each store
         for idx in range(len(store_ids)):
             store = store_ids[idx]
-            train = np.asarray(store_sales_df[store][0:1880].astype(float))
-            test = np.asarray(store_sales_df[store][1880:-1].astype(float))
+            train = np.asarray(store_sales_df[store][0:1844].astype(float))
+            test = np.asarray(store_sales_df[store][1844:-1].astype(float))
 
             # model is trained with the dataset
-            model = sm.tsa.statespace.SARIMAX(train, order=(0,1,1), seasonal_order=(0,1,1,7))
+            model = sm.tsa.statespace.SARIMAX(train, order=(0,1,1), seasonal_order=(0,1,1,14))
             results = model.fit()
 
             # plotting the actual vs predicted sales graph

@@ -33,7 +33,7 @@ class LSTM(object):
         store_sales_df = self.sales_df.groupby(['store_id']).sum().T
 
         # training dataset
-        training_dataset = store_sales_df[:1880]
+        training_dataset = store_sales_df[:1844]
 
         # creating a column to identify if the previous date was a holiday
         daysBeforeEvent = pd.DataFrame(np.zeros((1941,1)))
@@ -41,11 +41,11 @@ class LSTM(object):
             if((pd.isnull(self.calendar_df["event_name_1"][x])) == False):
                 daysBeforeEvent[0][x-1] = 1 
 
-        # "daysBeforeEventTest" will be used as input for predicting (We will forecast the days 1880 - 1941)
-        daysBeforeEventTest = daysBeforeEvent[1880:]
+        # "daysBeforeEventTest" will be used as input for predicting (We will forecast the days 1844 - 1941)
+        daysBeforeEventTest = daysBeforeEvent[1844:]
 
         # "daysBeforeEvent" will be used for training as a feature.
-        daysBeforeEvent = daysBeforeEvent[:1880]
+        daysBeforeEvent = daysBeforeEvent[:1844]
 
         # before concatanation with the main data "training_dataset", indexes are made same and column name is changed to "oneDayBeforeEvent"
         daysBeforeEvent.columns = ["oneDayBeforeEvent"]
@@ -61,7 +61,7 @@ class LSTM(object):
         # creating X and y datasets to train the model
         X_train = []
         y_train = []
-        for i in range(timesteps, 1880):
+        for i in range(timesteps, 1844):
             X_train.append(training_dataset_scaled[i-timesteps:i])
             y_train.append(training_dataset_scaled[i][0:10]) 
 
@@ -71,7 +71,7 @@ class LSTM(object):
         X_train = np.array(X_train)
         y_train = np.array(y_train)
 
-        X_test = store_sales_df[1880:]
+        X_test = store_sales_df[1844:]
 
         return (X_train, y_train, X_test, daysBeforeEventTest)
 
@@ -119,7 +119,14 @@ class LSTM(object):
         self.regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
         
         # Fitting the model to the Training set
-        self.regressor.fit(X_train, y_train, epochs = epochs, batch_size = batch_size)
+        history = self.regressor.fit(X_train, y_train, epochs = epochs, batch_size = batch_size)
+        
+        # summarize history for loss
+        plt.plot(history.history['loss'])
+        plt.title('LSTM model training loss')
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.show()
         
         return self.regressor
 
@@ -145,7 +152,7 @@ class LSTM(object):
         # predicting the sales for the next "targetDays" days 
         for j in range(timesteps,timesteps + targetDays):
             predicted_sales = self.regressor.predict(X_test[0,j - timesteps:j].reshape(1, timesteps, 11))
-            testInput = np.column_stack((np.array(predicted_sales), daysBeforeEventTest[0][1880 + j - timesteps]))
+            testInput = np.column_stack((np.array(predicted_sales), daysBeforeEventTest[0][1844 + j - timesteps]))
             X_test = np.append(X_test, testInput).reshape(1,j + 1,11)
             predicted_sales = self.scaler.inverse_transform(testInput)[:,0:10]
             predicted_sales = np.array(predicted_sales).ravel()
@@ -171,13 +178,13 @@ class LSTM(object):
 
         plt.figure(figsize=(15, 12))
         plt.subplots_adjust(hspace=0.5)
-        plt.suptitle("LSTM model performance in forecasting next 61 days sales", fontsize=18, y=0.95)
+        plt.suptitle("LSTM model performance in forecasting next 97 days sales", fontsize=18, y=0.95)
         
         for idx in range(y_pred.shape[1]):
             store = store_ids[idx]
             # calculating total RMSE
             total_rmse = mean_squared_error(y_pred[:, idx], y_actual.iloc[:, idx], squared=False)
-            rmse_per_day = total_rmse / 61
+            rmse_per_day = total_rmse / 97
             total_error += rmse_per_day
             ax = plt.subplot(5, 2, idx + 1)
             ax.plot(y_pred[:,idx], label = 'Predicted')

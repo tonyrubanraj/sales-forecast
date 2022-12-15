@@ -1,8 +1,7 @@
 # Importing the libraries and packages
 import dash
 from dash.dependencies import Input, Output
-import dash_core_components as dcc
-from dash import html
+from dash import html, dcc
 import numpy as np
 
 def createApp(store_ids, calendar_df, predictions):
@@ -32,7 +31,7 @@ def createApp(store_ids, calendar_df, predictions):
     def update_graph(selected_dropdown_value):
         return {
             'data': [{
-                'x': calendar_df[1880:1941]['date'],
+                'x': calendar_df[1844:1941]['date'],
                 'y': predictions[:, selected_dropdown_value]
             }],
             'layout': {'margin': {'l': 40, 'r': 0, 't': 20, 'b': 30}}
